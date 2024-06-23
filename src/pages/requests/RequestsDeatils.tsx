@@ -57,7 +57,8 @@ export function RequestDetails() {
 
     const { id } = useParams()
     const cookie = useCookies(['user'])
-    const user = JSON.parse(localStorage.getItem('user'))
+    let data = localStorage.getItem('user')
+    const user = data ? JSON.parse(data) : null
     console.log('from Local', user)
     // console.log('from Local', isAdmin)
 
