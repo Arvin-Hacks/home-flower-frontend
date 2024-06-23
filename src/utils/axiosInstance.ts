@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   // baseURL:/*  process.env.BACKEND_URL ||  */'http://localhost:8080', // Replace with your base URL
-  baseURL:'http://localhost:8000',
+  baseURL:"https://backend-flower-backend.vercel.app",
 });
 
 export default axiosInstance;

@@ -324,7 +324,7 @@ const ShoppingCart = () => {
                           <span className="text-muted-foreground">
                             {item?.product?.title} x <span>{item?.quantity}</span>
                           </span>
-                          <span>₹{item?.product?.price! * item?.quantity ?? 0}</span>
+                          <span>₹{item?.product?.price! * item?.quantity}</span>
                         </li>
                       )
                     })}
