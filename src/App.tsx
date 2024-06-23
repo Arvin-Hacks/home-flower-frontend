@@ -9,12 +9,10 @@ import Product from './pages/home/HomePage';
 import AddRequest from './pages/requests/AddRequest';
 // import { Navbar } from './components/comman/Navbar';
 import Layout from './components/layout/Layout';
-import PrivateRoute from './components/layout/PrivateComponent';
 import ManageRequest from './pages/requests/Request';
 import { RequestDetails } from './pages/requests/RequestsDeatils';
 import ProductDetails from './pages/home/ProductDetails';
 import Orders from './pages/Orders/Orders';
-import Cart from './pages/Cart/Cart';
 import ShoppingCart from './pages/Cart/Cart';
 
 function App() {

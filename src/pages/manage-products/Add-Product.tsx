@@ -84,7 +84,7 @@ export function AddProduct() {
             formdata.append('product', JSON.stringify(data))
 
             if (value.images) {
-                value.images.forEach((image, index) => {
+                value.images.forEach((image) => {
                     formdata.append(`images`, image);
                 });
 

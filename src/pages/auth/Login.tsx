@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useToast } from "@/components/ui/use-toast"
 import { loginApi } from "@/features/auth/authSlice"
-import { useAppDispatch, useAppSelector } from "@/utils/dispatchconfig"
+import { useAppDispatch } from "@/utils/dispatchconfig"
 import { useFormik } from "formik"
 import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
@@ -23,9 +22,7 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch()
   const [, setToken] = useCookies(['tete_accessToken', 'tete_refreshToken',"user"])
-  const { toast } = useToast()
   const Navigate = useNavigate()
-  const { loading } = useAppSelector(store => store.auth)
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().trim().email('Invalid email address').required('Email is required'),

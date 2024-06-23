@@ -4,8 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { getAProductDetailsApi } from '@/features/product/product.Slice';
 import { useAppDispatch, useAppSelector } from '@/utils/dispatchconfig';
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, } from 'react';
 import { useParams } from 'react-router-dom';
 import Autoplay from "embla-carousel-autoplay"
 // import { Carousel } from '@headlessui/react';
@@ -18,7 +17,7 @@ const ProductDetails = () => {
     const dispatch = useAppDispatch()
     const { id } = useParams()
 
-    const { getProductsDetailsData: product, loading } = useAppSelector(store => store.productReducer)
+    const { getProductsDetailsData: product } = useAppSelector(store => store.productReducer)
 
     useEffect(() => {
         id && dispatch(getAProductDetailsApi(id))
@@ -27,22 +26,22 @@ const ProductDetails = () => {
     console.log('product', product)
 
 
-    const images = [
-        '/images/apple1.jpg',
-        '/images/apple2.jpg',
-        '/images/apple3.jpg',
-        '/images/apple4.jpg',
-    ];
+    // const images = [
+    //     '/images/apple1.jpg',
+    //     '/images/apple2.jpg',
+    //     '/images/apple3.jpg',
+    //     '/images/apple4.jpg',
+    // ];
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    // const [currentIndex, setCurrentIndex] = useState(0);
 
-    const handlePrevious = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-    };
+    // const handlePrevious = () => {
+    //     setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    // };
 
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    };
+    // const handleNext = () => {
+    //     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    // };
     const plugin = React.useRef(
         Autoplay({ delay: 2000, stopOnInteraction: true })
     )
@@ -52,12 +51,12 @@ const ProductDetails = () => {
             <div className="flex flex-col lg:flex-row bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl">
                 <div className="relative flex-shrink-0 w-full lg:w-1/2 h-80 lg:h-auto">
                     <div className="absolute inset-0 flex items-center justify-between">
-                        <button onClick={handlePrevious} className="p-2 bg-white bg-opacity-50 rounded-full">
+                        {/* <button onClick={handlePrevious} className="p-2 bg-white bg-opacity-50 rounded-full">
                             <ChevronLeftIcon className="w-6 h-6" />
                         </button>
                         <button onClick={handleNext} className="p-2 bg-white bg-opacity-50 rounded-full">
                             <ChevronRightIcon className="w-6 h-6" />
-                        </button>
+                        </button> */}
                     </div>
                     <Carousel
                         plugins={[plugin.current]}

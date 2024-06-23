@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../utils/axiosInstance';
-import jwtDecode from 'jwt-decode';
 // import { error } from 'console';
 import { toast } from '@/components/ui/use-toast';
 

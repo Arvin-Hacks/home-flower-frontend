@@ -28,8 +28,8 @@ const ManageRequest = () => {
 
 
 
-    const [page, setPage] = useState<number>(1)
-    const [limit, setLimit] = useState<number>(10)
+    const [page,] = useState<number>(1)
+    const [limit, ] = useState<number>(10)
     useEffect(() => {
         dispatch(getAllProductsRequestApi({ page, limit })).then(res => console.log('products', res))
 
@@ -151,7 +151,7 @@ const ManageRequest = () => {
 
                                             getAllProductsRequestData?.data?.length > 0 ?
                                                 getAllProductsRequestData?.data?.map((product:any, index: number) => {
-                                                    const { title, category, price, description, images, status, _id } = product 
+                                                    const { title, images, status, _id } = product 
 
                                                     console.log('first')
 

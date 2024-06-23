@@ -48,8 +48,8 @@ const ShoppingCart = () => {
   const dispatch = useAppDispatch()
   const cookie = useCookies(['user'])
 
-  const { getCartData, addToCartData, removeFromCartData, loading: cartLoading } = useAppSelector(store => store.cartReducer)
-  const { placeOrderData, loading: orderLoading } = useAppSelector(store => store.orderReducer)
+  const { getCartData, addToCartData, removeFromCartData } = useAppSelector(store => store.cartReducer)
+  const { placeOrderData } = useAppSelector(store => store.orderReducer)
 
   const [cartItems, setCartItems] = useState<CartItem[]>(getCartData?.data?.[0]?.items)
 

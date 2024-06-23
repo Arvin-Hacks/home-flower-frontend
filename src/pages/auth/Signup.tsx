@@ -11,9 +11,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signupApi } from "@/features/auth/authSlice"
-import { AppDispatch, RootState } from "@/store/store"
+import { AppDispatch } from "@/store/store"
 import { useEffect } from "react"
-import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -28,7 +27,7 @@ export default function SignupForm() {
   const [, setToken] = useCookies(['tete_accessToken', 'tete_refreshToken','user'])
   const { toast } = useToast()
   const Navigate = useNavigate()
-  const { loading } = useSelector((store: RootState) => store.auth)
+  // const { loading /} = useSelector((store: RootState) => store.auth)
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().trim().email('Invalid email address').required('Email is required'),

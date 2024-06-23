@@ -1,5 +1,5 @@
 // import Link from "next/link"
-import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react"
+import { CircleUser, Menu, Package2, ShoppingCart } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -10,7 +10,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Link } from "react-router-dom"
 import { useCookies } from "react-cookie"

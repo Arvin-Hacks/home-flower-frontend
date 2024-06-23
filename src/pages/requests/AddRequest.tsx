@@ -59,7 +59,7 @@ export default function AddRequest() {
             formdata.append('product', JSON.stringify(data))
 
             if (values.images) {
-                values.images.forEach((image, index) => {
+                values.images.forEach((image) => {
                     formdata.append(`images`, image);
                 });
 

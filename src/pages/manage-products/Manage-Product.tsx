@@ -31,8 +31,8 @@ const ManageProducts = () => {
 
 
 
-    const [page, setPage] = useState<number>(1)
-    const [limit, setLimit] = useState<number>(10)
+    const [page, ] = useState<number>(1)
+    const [limit, ] = useState<number>(10)
     useEffect(() => {
         dispatch(getAllProductsApi({ page, limit })).then(res => console.log('products', res))
 
@@ -152,7 +152,7 @@ const ManageProducts = () => {
                                         
                                             getAllProductsData?.data?.length > 0 ?
                                                 getAllProductsData?.data?.map((product: IProduct, index: number) => {
-                                                    const { title, category, price, description, imageUrl, status } = product
+                                                    const { title, category, price, imageUrl, status } = product
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell className="hidden sm:table-cell">

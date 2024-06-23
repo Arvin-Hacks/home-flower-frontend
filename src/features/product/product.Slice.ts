@@ -1,5 +1,5 @@
 import { toast } from "@/components/ui/use-toast";
-import { IProduct } from "@/type";
+// import { IProduct } from "@/type";
 import axios from "@/utils/axiosInstance";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 

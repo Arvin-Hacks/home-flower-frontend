@@ -8,20 +8,18 @@ import { useAppDispatch, useAppSelector } from '@/utils/dispatchconfig'
 import { Check, Search, ShoppingCart, StarIcon, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { useNavigate } from 'react-router-dom'
 
 const Product = () => {
-    const Navigate = useNavigate()
     const dispatch = useAppDispatch()
     const cookie = useCookies(['user'])
-    const { getAllProductsData, loading } = useAppSelector(store => store.productReducer)
-    const { getCartData, addToCartData, removeFromCartData, loading: cartLoading } = useAppSelector(store => store.cartReducer)
+    const { getAllProductsData } = useAppSelector(store => store.productReducer)
+    const { getCartData, addToCartData, removeFromCartData } = useAppSelector(store => store.cartReducer)
 
     console.log('cookie', cookie)
 
     const [page, setPage] = useState<number>(1)
-    const [limit, setLimit] = useState<number>(20)
-    const [search, setSearch] = useState<string>('')
+    const [limit, ] = useState<number>(20)
+    const [search, ] = useState<string>('')
     useEffect(() => {
         dispatch(getAllProductsApi({ page, limit, search }))
             .then(res => console.log('products', res))
@@ -97,7 +95,7 @@ const Product = () => {
                             </div>
                         </div>
                     ))} */}
-                    {getAllProductsData?.data?.map(({ title, price, category, description, imageUrl, _id }: IProduct, index: number) => (
+                    {getAllProductsData?.data?.map(({ title, imageUrl, _id }: IProduct, index: number) => (
 
                         <div className="flex justify-center p-4 bg-gray-100 " key={index}>
                             <div className="max-w-xs w-full bg-white rounded-lg shadow-sm overflow-hidden">
