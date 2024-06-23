@@ -155,14 +155,16 @@ const ManageRequest = () => {
                                         {!loading ?
 
                                             getAllProductsRequestData?.data?.length > 0 ?
-                                                getAllProductsRequestData?.data?.map((product: IProduct, index: number) => {
-                                                    const { title, category, price, description, images, status, _id } = product
+                                                getAllProductsRequestData?.data?.map((product:any, index: number) => {
+                                                    const { title, category, price, description, images, status, _id } = product 
+
+                                                    console.log('first')
 
                                                     // console.log('status', status);
                                                     return (
                                                         <TableRow key={index}>
                                                             <TableCell className="hidden sm:table-cell cursor-pointer" onClick={() => Navigate(`/requests-details/${_id}`)}>
-                                                                <img alt="Product image" className="aspect-square rounded-md object-cover" height="64" src={images?.[0] ?? ''} width="64" />
+                                                              <img alt="Product image" className="aspect-square rounded-md object-cover" height="64" src={images?.[0]} width="64" />
                                                             </TableCell>
                                                             <TableCell className="font-medium">{title}</TableCell>
                                                             <TableCell><Badge variant="outline">{status}</Badge></TableCell>
