@@ -2,7 +2,6 @@
 import {
     ChevronLeft,
     PlusCircle,
-    Upload,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -39,7 +38,6 @@ import {
 } from "@/components/ui/toggle-group"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
-import { Value } from "@radix-ui/react-select"
 import { useToast, } from "@/components/ui/use-toast"
 import UploadButton from "@/components/comman/Fileupload"
 import { IProduct } from "@/type"

@@ -1,10 +1,8 @@
-import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { IProduct } from '@/type';
 import { Minus, Plus } from 'lucide-react';
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { number } from 'yup';
 
 
 export interface CartItem {

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signupApi } from "@/features/auth/authSlice"
-import store, { AppDispatch, RootState } from "@/store/store"
+import { AppDispatch, RootState } from "@/store/store"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"

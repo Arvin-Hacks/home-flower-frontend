@@ -1,47 +1,12 @@
 import {
-    Bird,
-    Book,
-    Bot,
-    Code2,
     CornerDownLeft,
-    LifeBuoy,
-    Mic,
-    Paperclip,
-    Rabbit,
-    Settings,
-    Settings2,
-    Share,
-    SquareTerminal,
-    SquareUser,
-    Triangle,
-    Turtle,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-    Drawer,
-    DrawerContent,
-    DrawerDescription,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
 import React, { useEffect, useState } from "react"
@@ -65,7 +30,7 @@ export function RequestDetails() {
     console.log('cookie', cookie)
     const dispatch = useAppDispatch()
     const [message, setMessage] = useState('')
-    const { getProductsRequestDetailsData, loading } = useAppSelector(store => store.productRequestReducer)
+    const { getProductsRequestDetailsData } = useAppSelector(store => store.productRequestReducer)
     const { addMessageData } = useAppSelector(store => store.messageSliceReducer)
 
 

@@ -1,33 +1,9 @@
 import {
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  CreditCard,
-  File,
-  HandCoins,
-  Home,
   IndianRupee,
-  LineChart,
   ListFilter,
-  MoreVertical,
-  Package,
-  Package2,
-  PanelLeft,
-  Search,
-  Settings,
-  Truck,
-  Users2,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -41,20 +17,11 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination"
-import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   Table,
   TableBody,
@@ -69,16 +36,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { useEffect, useState } from "react"
 import { getUserCartApi } from "@/features/cart/cartSlice"
 import { useAppDispatch, useAppSelector } from "@/utils/dispatchconfig"
 import { useCookies } from "react-cookie"
-import { IProduct } from "@/type"
 import CartRows, { CartItem } from "./CartRows"
 import { OrderData, placeOrderApi } from "@/features/order/OrderSlice"
 
@@ -102,9 +63,6 @@ const ShoppingCart = () => {
   const handlePlaceOrder = () => {
     console.log('order', cartItems)
 
-    const { } = cartItems
-
-
 
     const orderData: OrderData = {
 
@@ -118,7 +76,8 @@ const ShoppingCart = () => {
     dispatch(placeOrderApi(orderData)).then((res) => {
       console.log('rss', res)
       if (res?.type === 'order/add/fulfilled') {
-        console.log('remove card data')
+        
+        
       }
     })
     // console.log('cc', orderData)
