@@ -46,7 +46,7 @@ export const getAllProductsApi = createAsyncThunk<any,GetAllProductsAPIAgrs>(
     'product/get',
     async ({ page,limit,search,category}) => {
         try {
-            const response = await axios.get(`/api/v1/product/?page=${page}&${limit&& "limit="+limit}${search&& "&search="+search}${category&& "&category="+category}`)
+            const response = await axios.get(`/api/v1/product/?page=${page}&${limit&& "limit="+limit}${search&& "&search="+search}`)
             // toast({ title: response?.data?.message })
             return response.data
 

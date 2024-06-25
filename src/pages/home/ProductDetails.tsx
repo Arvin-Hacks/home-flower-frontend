@@ -18,6 +18,7 @@ const ProductDetails = () => {
     const { id } = useParams()
 
     const { getProductsDetailsData: product } = useAppSelector(store => store.productReducer)
+    const { getCartData: cart } = useAppSelector(store => store.cartReducer)
 
     useEffect(() => {
         id && dispatch(getAProductDetailsApi(id))
@@ -46,8 +47,11 @@ const ProductDetails = () => {
         Autoplay({ delay: 2000, stopOnInteraction: true })
     )
 
+
+
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-4" style={{backgroundColor:"rgb(229 246 255)"}}>
+        <div className="flex flex-col items-center justify-center min-h-screen p-4" style={{ backgroundColor: "rgb(229 246 255)" }}>
             <div className="flex flex-col lg:flex-row bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl">
                 <div className="relative flex-shrink-0 w-full lg:w-1/2 h-80 lg:h-auto">
                     <div className="absolute inset-0 flex items-center justify-between">
@@ -115,9 +119,17 @@ const ProductDetails = () => {
                             <li>They're linked to a lower risk of diabetes</li>
                         </ul> */}
                     </div>
-                    <Button className="self-start mt-4 bg-red-500 text-white">
-                        Add to Cart
-                    </Button>
+                    <p>{ }</p>
+                    {cart?.data?.[0]?.items?.some((item: any) => item?.product?._id === product?.data?._id) ?
+                        <Button className="self-start mt-4 bg-green-500 text-white">
+                            Checkout
+                        </Button>
+
+                        :
+                        <Button className="self-start mt-4 bg-red-500 text-white">
+                            Add to Cart
+                        </Button>
+                    }
                 </div>
             </div>
         </div>

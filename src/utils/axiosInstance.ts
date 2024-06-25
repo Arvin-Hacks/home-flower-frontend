@@ -4,8 +4,8 @@ import axios from 'axios';
 // console.log('process.env.BACKEND_URL',process.env.BACKEND_URL)
 
 const axiosInstance = axios.create({
-  // baseURL:/*  process.env.BACKEND_URL ||  */'http://localhost:8080', // Replace with your base URL
-  baseURL:"https://backend-psi-liart.vercel.app",
+  baseURL:/*  process.env.BACKEND_URL ||  */'http://localhost:8000', // Replace with your base URL
+  // baseURL:"https://backend-psi-liart.vercel.app",
 });
 
 export default axiosInstance;
