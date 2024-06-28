@@ -14,6 +14,8 @@ import { RequestDetails } from './pages/requests/RequestsDeatils';
 import ProductDetails from './pages/home/ProductDetails';
 import Orders from './pages/Orders/Orders';
 import ShoppingCart from './pages/Cart/Cart';
+import { OrderPlaced } from './pages/Orders/OrderPlaced';
+import OrderDetails from './pages/Orders/OrderDetails';
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
 
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/orders-placed/:id" element={<OrderPlaced />} />
+            <Route path="/order-details/:id" element={<OrderDetails />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/manage-product" element={<ManageProducts />} />
             <Route path="/add-product" element={<AddProduct />} />

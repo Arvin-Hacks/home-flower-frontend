@@ -42,21 +42,23 @@ import { useAppDispatch, useAppSelector } from "@/utils/dispatchconfig"
 import { useCookies } from "react-cookie"
 import CartRows, { CartItem } from "./CartRows"
 import { OrderData, placeOrderApi } from "@/features/order/OrderSlice"
+import { Link, useNavigate } from "react-router-dom"
 
 const ShoppingCart = () => {
 
   const dispatch = useAppDispatch()
+  const Navigate=useNavigate()
   const cookie = useCookies(['user'])
 
   const { getCartData, addToCartData, removeFromCartData } = useAppSelector(store => store.cartReducer)
   const { placeOrderData } = useAppSelector(store => store.orderReducer)
 
-  const [cartItems, setCartItems] = useState<CartItem[]>(getCartData?.data?.[0]?.items)
+  const [cartItems, setCartItems] = useState<CartItem[]>(getCartData?.data?.[0]?.items ?? [])
 
 
   useEffect(() => {
     dispatch(getUserCartApi({ userId: cookie?.[0].user?._id }))
-      .then(res => console.log('cart', res))
+      .then(res => setCartItems(res?.payload?.data?.[0]?.items ??[]))
   }, [addToCartData, removeFromCartData, placeOrderData])
 
 
@@ -76,8 +78,7 @@ const ShoppingCart = () => {
     dispatch(placeOrderApi(orderData)).then((res) => {
       console.log('rss', res)
       if (res?.type === 'order/add/fulfilled') {
-        
-        
+        Navigate(`/order-details/${res?.payload?.data?._id}`)
       }
     })
     // console.log('cc', orderData)
@@ -87,8 +88,6 @@ const ShoppingCart = () => {
   // console.log('cartItems',cartItems)
 
   const handleIncrease = (itemId: string) => {
-
-    // const data=
     console.log('id', itemId)
     setCartItems(prevItems =>
       prevItems?.map(item =>
@@ -227,6 +226,9 @@ const ShoppingCart = () => {
                           <TableHead className="hidden md:table-cell">
                             Subtotal
                           </TableHead>
+                          <TableHead className="hidden md:table-cell">
+                            Action
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -244,24 +246,12 @@ const ShoppingCart = () => {
 
                           :
                           <TableRow>
-                            <TableCell>
-                              <div className="font-medium">Olivia Smith</div>
-                              <div className="hidden text-sm text-muted-foreground md:inline">
-                                olivia@example.com
-                              </div>
+                            <TableCell colSpan={7}>
+                              <Link to={'/'}>
+                                <div className="font-medium font-bold">Add Some Products in cart</div>
+                              </Link>
+
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                              Refund
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                              <Badge className="text-xs" variant="outline">
-                                Declined
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="hidden md:table-cell">
-                              2023-06-24
-                            </TableCell>
-                            <TableCell className="text-right">$150.00</TableCell>
                           </TableRow>
                         }
 
@@ -272,7 +262,7 @@ const ShoppingCart = () => {
               </TabsContent>
             </Tabs>
           </div>
-          <div>
+          {cartItems?.length > 0 && <div>
             <Card
               className="overflow-hidden" x-chunk="dashboard-05-chunk-4"
             >
@@ -435,7 +425,7 @@ const ShoppingCart = () => {
                                 </Pagination> */}
               </CardFooter>
             </Card>
-          </div>
+          </div>}
         </main>
       </div>
     </div>

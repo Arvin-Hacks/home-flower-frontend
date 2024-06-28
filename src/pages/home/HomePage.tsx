@@ -166,8 +166,8 @@ const Product = () => {
                                             </div>
                                             {getCartData?.data?.[0]?.items?.some((item: any) => item?.product?._id === _id) ?
                                                 <div className='flex gap-2 '>
-                                                    <Button className="w-full mt-4 bg-emerald-500 text-white gap-2" variant="default" onClick={() => handleRemovetFromCart(_id!)}>
-                                                        Added to cart
+                                                    <Button className="w-full mt-4 bg-emerald-500 text-white gap-2" variant="default" >
+                                                        Added to Cart
                                                         <Check />
                                                     </Button>
                                                     <Button className="w-full mt-4 bg-red-400 text-white gap-2" variant="default" onClick={() => handleRemovetFromCart(_id!)}>

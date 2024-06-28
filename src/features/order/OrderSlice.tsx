@@ -42,6 +42,9 @@ export interface OrderData {
 
 }
 
+interface OrderDetailsProps{
+    id:string
+}
 
 
 
@@ -65,6 +68,22 @@ export const getUserOrdesApi = createAsyncThunk<any, GetAllProductsRequestAPIAgr
     async ({ userId, page, limit, search, }) => {
         try {
             const response = await axios.get(`/api/v1/order/?userId=${userId}&page=${page}&${limit && "limit=" + limit}${search && "&search=" + search}`,)
+            // toast({ title: response?.data?.message })
+            console.log('orders data', response)
+            return response.data
+
+        } catch (error: any) {
+            console.log('orders fetch error', error)
+            toast({ title: error?.message })
+            return false
+        }
+
+    })
+export const getOrdesDetailsApi = createAsyncThunk<any,OrderDetailsProps>(
+    'order/getdetails',
+    async ( {id}) => {
+        try {
+            const response = await axios.get(`/api/v1/order/order-details/${id}`,)
             // toast({ title: response?.data?.message })
             console.log('orders data', response)
             return response.data
@@ -107,9 +126,22 @@ const OrderSlice = createSlice({
             })
             .addCase(getUserOrdesApi.fulfilled, (state, action) => {
                 state.loading = false;
-                state.getOrdersData = action.payload;
+                state.getOrdersData = action.payload?.data;
             })
             .addCase(getUserOrdesApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Order Request fetch failed';
+            });
+        builder
+            .addCase(getOrdesDetailsApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getOrdesDetailsApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.getorderDetailsData = action.payload?.data;
+            })
+            .addCase(getOrdesDetailsApi.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Order Request fetch failed';
             });
