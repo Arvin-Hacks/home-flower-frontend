@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
-import { File, ListFilter, MoreHorizontal, PlusCircle } from 'lucide-react';
+import { File, ListFilter, MoreHorizontal, PlusCircle, Search } from 'lucide-react';
 import {
     Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
 } from '@/components/ui/card';
@@ -17,90 +17,114 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/utils/dispatchconfig';
-import { useEffect, useState } from 'react';
-import { getAllProductsApi } from '@/features/product/product.Slice';
+import { useCallback, useEffect, useState } from 'react';
+import { deleteProductApi, getAllProductsApi } from '@/features/product/product.Slice';
 import { IProduct } from '@/type';
+import Swal from 'sweetalert2'
+import { debounce } from '@/utils/debounceFunction';
+import { Input } from '@/components/ui/input';
+import PaginationComponent from '@/components/comman/Pagination';
 // import { Image } from '@radix-ui/react-avatar';
 
 const ManageProducts = () => {
 
+    const Navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const { getAllProductsData, loading } = useAppSelector(store => store.productReducer)
+    const { getAllProductsData, deleteProductData, loading } = useAppSelector(store => store.productReducer)
 
 
 
-    const [page, ] = useState<number>(1)
-    const [limit, ] = useState<number>(10)
+    const [page, setPage] = useState<number>(1)
+    const [limit,] = useState<number>(10)
+    const [search, setSearch] = useState<string>('')
+
     useEffect(() => {
         dispatch(getAllProductsApi({ page, limit })).then(res => console.log('products', res))
 
-    }, [page, limit])
+    }, [page, limit, deleteProductData])
+
+    const debouncedFetchData = useCallback(debounce((search: string) => {
+        dispatch(getAllProductsApi({
+            search,
+            page: 1,
+            limit
+        })).then(res =>
+            console.log('first', res))
+    }, 500), [])
+
+    useEffect(() => {
+        if (!loading) {
+            debouncedFetchData(search);
+        }
+    }, [search, debouncedFetchData]);
+
+    const handlePageChange = (pag: number) => {
+        // console.log('p', pag)
+        setPage(pag);
+        // Add logic here to fetch data for the new page
+    };
 
     console.log('getAllProductsData', getAllProductsData)
 
+
+    const handleDeleteProduct = (id: string) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                dispatch(deleteProductApi(id)).then((res) => {
+                    console.log('res', res)
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Product has been deleted.",
+                        icon: "success"
+                    });
+                })
+
+
+            }
+        });
+
+    }
+
     return (
         <div>
-            <header className="flex justify-between items-center p-4 bg-white shadow-md">
-                <Breadcrumb className="hidden md:flex">
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link to="/">Dashboard</Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        {/* <BreadcrumbSeparator /> */}
-                        {/* <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link href="/products">Products</Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem> */}
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>All Products</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
-                            {/* <Image
-                                src="/placeholder-user.jpg"
-                                width={36}
-                                height={36}
-                                alt="Avatar"
-                                className="overflow-hidden rounded-full"
-                            /> */}
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Settings</DropdownMenuItem>
-                        <DropdownMenuItem>Support</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Logout</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </header>
-            <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+            <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8">
                 <Tabs defaultValue="all">
                     <div className="flex items-center mb-4">
-                        <TabsList>
+                        {/* <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
                             <TabsTrigger value="active">Active</TabsTrigger>
                             <TabsTrigger value="draft">Draft</TabsTrigger>
                             <TabsTrigger value="archived" className="hidden sm:flex">
                                 Archived
                             </TabsTrigger>
-                        </TabsList>
+                        </TabsList> */}
                         <div className="ml-auto flex items-center gap-2">
+                            <div className="relative">
+                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    type="search"
+                                    placeholder="Search products..."
+                                    className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" size="sm" className="h-7 gap-1">
+                                    <Button variant="outline" size="sm" className="h-7 gap-1 py-3">
                                         <ListFilter className="h-3.5 w-3.5" />
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Filter</span>
+                                        <span className="sr-only py-2  sm:not-sr-only sm:whitespace-nowrap">Filter</span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
@@ -111,13 +135,13 @@ const ManageProducts = () => {
                                     <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button size="sm" variant="outline" className="h-7 gap-1">
+                            {/* <Button size="sm" variant="outline" className="h-7 gap-1">
                                 <File className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
-                            </Button>
-                            <Button size="sm" className="h-7 gap-1">
+                            </Button> */}
+                            <Button size="sm" className="h-7 gap-1" onClick={() => Navigate('/add-product')}>
                                 <PlusCircle className="h-3.5 w-3.5" />
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Product</span>
+                                <span className="sr-only  sm:not-sr-only sm:whitespace-nowrap">Add Product</span>
                             </Button>
                         </div>
                     </div>
@@ -136,12 +160,12 @@ const ManageProducts = () => {
                                             </TableHead> */}
                                             <TableHead>Image</TableHead>
                                             <TableHead>Name</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead>Price</TableHead>
+                                            <TableHead className="hidden md:table-cell">Status</TableHead>
+                                            <TableHead >Price</TableHead>
                                             <TableHead className="hidden md:table-cell">Category</TableHead>
                                             {/* <TableHead className="hidden md:table-cell">Created at</TableHead> */}
                                             <TableHead>
-                                            Actions
+                                                Actions
                                                 <span className="sr-only"></span>
                                             </TableHead>
                                         </TableRow>
@@ -149,18 +173,18 @@ const ManageProducts = () => {
                                     <TableBody>
                                         {/* Replace these rows with dynamic content */}
                                         {!loading ?
-                                        
+
                                             getAllProductsData?.data?.length > 0 ?
                                                 getAllProductsData?.data?.map((product: IProduct, index: number) => {
-                                                    const { title, category, price, imageUrl, status } = product
+                                                    const { title, category, price, imageUrl, status, _id } = product
                                                     return (
                                                         <TableRow key={index}>
-                                                            <TableCell className="hidden sm:table-cell">
+                                                            <TableCell >
                                                                 <img alt="Product image" className="aspect-square rounded-md object-cover" height="64" src={imageUrl?.[0]} width="64" />
                                                             </TableCell>
-                                                            <TableCell className="font-medium">{title}</TableCell>
-                                                            <TableCell><Badge variant="outline">{status}</Badge></TableCell>
-                                                            <TableCell>${price}</TableCell>
+                                                            <TableCell className="font-medium" style={{textAlign:'left'}}>{title}</TableCell>
+                                                            <TableCell className="hidden sm:table-cell"><Badge variant="outline">{status}</Badge></TableCell>
+                                                            <TableCell >${price}</TableCell>
                                                             <TableCell className="hidden md:table-cell">{category}</TableCell>
                                                             <TableCell>
                                                                 <DropdownMenu>
@@ -172,8 +196,8 @@ const ManageProducts = () => {
                                                                     </DropdownMenuTrigger>
                                                                     <DropdownMenuContent align="end">
                                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={() => Navigate(`/edit-product/${_id}`)}>Edit</DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={() => handleDeleteProduct(_id!)}>Delete</DropdownMenuItem>
                                                                     </DropdownMenuContent>
                                                                 </DropdownMenu>
                                                             </TableCell>
@@ -202,8 +226,16 @@ const ManageProducts = () => {
                             </CardContent>
                             <CardFooter>
                                 <div className="text-xs text-muted-foreground">
-                                    Showing <strong>1-10</strong> of <strong>32</strong> products
+                                    Showing <strong>{getAllProductsData?.data?.lenght - (limit * page)}-{limit * page}</strong> of <strong>{getAllProductsData?.data?.lenght ?? 0}</strong> products
                                 </div>
+                                {
+                                    getAllProductsData?.data?.lenght > limit && <PaginationComponent
+
+                                        currentPage={page}
+                                        totalPages={getAllProductsData?.meta?.totalPages || 1}
+                                        onPageChange={handlePageChange}
+                                    />
+                                }
                             </CardFooter>
                         </Card>
                     </TabsContent>

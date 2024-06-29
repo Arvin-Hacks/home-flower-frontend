@@ -11,14 +11,22 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useCookies } from "react-cookie"
 
 export function Navbar() {
 
-    const cookie=useCookies(['user'])
+    const [cookie, setCookie, removeCookie] = useCookies(['tete_user'])
+    // const cookies=useCookies()
+    const navigate = useNavigate()
 
-    console.log('cookie',cookie)
+
+    const handleLogout = () => {
+        removeCookie('tete_user')
+        navigate('/login')
+    }
+
+    console.log('cookie', cookie?.tete_user)
     return (
         // <div className="flex w-full flex-col">
         <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -30,30 +38,36 @@ export function Navbar() {
                     <Package2 className="h-6 w-6" />
                     <span className="sr-only">Acme Inc</span>
                 </Link>
-                <Link
+                {cookie?.tete_user?.flower && <Link
                     to="/dashboard"
                     className="text-foreground transition-colors hover:text-foreground"
                 >
                     Dashboard
-                </Link>
+                </Link>}
                 <Link
+                    to="/"
+                    className="text-muted-foreground hover:text-foreground"
+                >
+                    Home
+                </Link>
+                {cookie?.tete_user && <Link
                     to="/orders"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                 >
                     Orders
-                </Link>
-                <Link
+                </Link>}
+                {cookie?.tete_user?.flower && <Link
                     to="/manage-product"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                 >
                     Products
-                </Link>
-                <Link
+                </Link>}
+                {<Link
                     to="/requests"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                 >
                     Requests
-                </Link>
+                </Link>}
                 {/* <Link
                     to="#"
                     className="text-muted-foreground transition-colors hover:text-foreground"
@@ -81,26 +95,32 @@ export function Navbar() {
                             <Package2 className="h-6 w-6" />
                             <span className="sr-only">Acme Inc</span>
                         </Link>
-                        <Link
+                        {cookie?.tete_user?.flower && <Link
                             to="/dashboard"
                             className="text-muted-foreground hover:text-foreground"
                         >
                             Dashboard
-                        </Link>
+                        </Link>}
                         <Link
+                            to="/"
+                            className="text-muted-foreground hover:text-foreground"
+                        >
+                            Home
+                        </Link>
+                        {cookie?.tete_user && <Link
                             to="/orders"
                             className="text-muted-foreground hover:text-foreground"
                         >
                             Orders
-                        </Link>
-                        <Link
+                        </Link>}
+                        {cookie?.tete_user?.flower &&<Link
                             to="/manage-product"
                             className="text-muted-foreground hover:text-foreground"
                         >
                             Products
-                        </Link>
+                        </Link>}
                         <Link
-                            to="/requets"
+                            to="/requests"
                             className="text-muted-foreground hover:text-foreground"
                         >
                             Request
@@ -142,12 +162,14 @@ export function Navbar() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Settings</DropdownMenuItem>
-                        <DropdownMenuItem>Support</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Logout</DropdownMenuItem>
+                        {cookie?.tete_user ? <>
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                            <DropdownMenuItem>Support</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem></> :
+                            <DropdownMenuItem onClick={() => navigate('/login')}>Login</DropdownMenuItem>}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

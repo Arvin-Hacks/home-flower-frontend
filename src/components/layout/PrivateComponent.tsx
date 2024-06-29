@@ -4,6 +4,9 @@
 // import { Navigate, Outlet } from 'react-router-dom';
 // // import { useAuth } from '../contexts/AuthContext';
 
+import { useCookies } from "react-cookie"
+import { Navigate, Outlet } from "react-router-dom"
+
 // // interface PrivateRouteProps {
 // //     element: React.FC;
 // // }
@@ -16,14 +19,17 @@
 // // export default PrivateRoute;
 
 
-// const Privatecomponent = () => {
+const Privatecomponent = () => {
 
-//     // let auth = localStorage.getItem('reader');
-//     // let log = localStorage.getItem('log');
-//     // let admin_auth=localStorage.getItem('adminn')
-//     const { currentUser } = useAuth();
-//     console.log('currentUser',currentUser)
-//     return currentUser ? <Outlet /> : <Navigate to='/login' />
-// }
+    // let auth = localStorage.getItem('reader');
+    // let log = localStorage.getItem('log');
+    const [cookie] = useCookies(['tete_user'])
 
-// export default Privatecomponent;
+    console.log('currentUser', cookie?.tete_user)
+    console.log('currentUser', cookie?.tete_user?._doc)
+    console.log('currentUser', cookie?.tete_user?.flower)
+    console.log('currentUser', cookie?.tete_user)
+    return cookie?.tete_user ? <Outlet /> : <Navigate to='/login' />
+}
+
+export default Privatecomponent;

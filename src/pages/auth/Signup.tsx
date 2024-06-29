@@ -37,6 +37,8 @@ export default function SignupForm() {
 
   const formik = useFormik({
     initialValues: {
+      firstName:'',
+      lastName: '',
       email: "",
       password: ""
     },
@@ -45,7 +47,7 @@ export default function SignupForm() {
       formik.setSubmitting(true)
       console.log('values', values)
 
-      dispatch(signupApi({ email: values.email, password: values.password })).then(res => {
+      dispatch(signupApi(values)).then(res => {
         if (res?.type === "auth/signup/fulfilled") {
           const response = res?.payload?.data;
           setToken('tete_accessToken', response?.accessToken)
@@ -84,12 +86,20 @@ export default function SignupForm() {
         <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="first-name">First name</Label>
-              <Input id="first-name" placeholder="Max" required />
+              <Label htmlFor="firstName">First name</Label>
+              <Input 
+              id="firstName" 
+              placeholder="First Name"
+              {...formik.getFieldProps('firstName')}
+               required  />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="last-name">Last name</Label>
-              <Input id="last-name" placeholder="Robinson" required />
+              <Input 
+              id="lastName" 
+              placeholder="Last Name" 
+              {...formik.getFieldProps('lastName')}
+              required  />
             </div>
           </div>
           <div className="grid gap-2">

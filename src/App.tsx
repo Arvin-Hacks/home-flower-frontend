@@ -16,6 +16,9 @@ import Orders from './pages/Orders/Orders';
 import ShoppingCart from './pages/Cart/Cart';
 import { OrderPlaced } from './pages/Orders/OrderPlaced';
 import OrderDetails from './pages/Orders/OrderDetails';
+import ProtectedRoute from './contexts/ProtectedRoute';
+import Privatecomponent from './components/layout/PrivateComponent';
+import { PageNotFound } from './components/helper/404Page';
 
 function App() {
   return (
@@ -25,6 +28,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/*" element={<PageNotFound />} />
+
 
           {/* <Route element={<Layout />}>
             <Route path="/" element={<Product />} />
@@ -44,24 +49,25 @@ function App() {
 
           <Route element={<Layout />}>
             <Route path="/" element={<Product />} />
-            {/* <Route element={<PrivateRoute />}> */}
-
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders-placed/:id" element={<OrderPlaced />} />
-            <Route path="/order-details/:id" element={<OrderDetails />} />
-            <Route path="/cart" element={<ShoppingCart />} />
-            <Route path="/manage-product" element={<ManageProducts />} />
-            <Route path="/add-product" element={<AddProduct />} />
             <Route path="/product-details/:id" element={<ProductDetails />} />
+            <Route element={<Privatecomponent />}>
+
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/orders" element={<ProtectedRoute children={<Orders />} />} />
+              <Route path="/orders-placed/:id" element={<OrderPlaced />} />
+              <Route path="/order-details/:id" element={<OrderDetails />} />
+              <Route path="/cart" element={<ShoppingCart />} />
+              <Route path="/manage-product" element={<ManageProducts />} />
+              <Route path="/add-product" element={<AddProduct />} />
+              <Route path="/edit-product/:id" element={<AddProduct />} />
 
 
-            <Route path="/requests" element={<ManageRequest />} />
-            <Route path="/requests" element={<ManageRequest />} />
-            <Route path="/add-request" element={<AddRequest />} />
-            <Route path="/requests-details/:id" element={<RequestDetails />} />
+              <Route path="/requests" element={<ManageRequest />} />
+              <Route path="/requests" element={<ManageRequest />} />
+              <Route path="/add-request" element={<AddRequest />} />
+              <Route path="/requests-details/:id" element={<RequestDetails />} />
 
-            {/* </Route> */}
+            </Route>
 
           </Route>
 

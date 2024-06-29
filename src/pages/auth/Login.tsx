@@ -14,14 +14,14 @@ import { loginApi } from "@/features/auth/authSlice"
 import { useAppDispatch } from "@/utils/dispatchconfig"
 import { useFormik } from "formik"
 import { useCookies } from "react-cookie"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import * as Yup from 'yup'
 
 
 export default function LoginForm() {
 
   const dispatch = useAppDispatch()
-  const [, setToken] = useCookies(['tete_accessToken', 'tete_refreshToken',"user"])
+  const [, setToken] = useCookies(['tete_accessToken', 'tete_refreshToken', "tete_user"])
   const Navigate = useNavigate()
 
   const validationSchema = Yup.object().shape({
@@ -45,10 +45,10 @@ export default function LoginForm() {
           const response = res?.payload?.data;
           setToken('tete_accessToken', response?.accessToken)
           setToken('tete_refreshToken', response?.refreshToken)
-          setToken('user', response?.user)
+          setToken('tete_user', response?.user)
           localStorage.setItem('user', JSON.stringify(response?.user));
           Navigate('/')
-        }   
+        }
         console.log('Login', res)
       })
       formik.setSubmitting(false)
@@ -106,12 +106,14 @@ export default function LoginForm() {
             Login with Google
           </Button>
         </div>
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 mb-4 text-center text-sm divide-y-4 divide-slate-400/25">
           Don&apos;t have an account?{" "}
-          {/* <Link href="#" className="underline">
+          <Link to="/signup" className="underline">
             Sign up
-          </Link> */}
+          </Link>
         </div>
+        <Link to={'/'} className="full-w"> <Button variant={"secondary"}>Explore Without Login</Button></Link>
+
       </CardContent>
     </Card>
   )

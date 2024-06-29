@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto p-4">
+      <div className="container md:p-4 lg:p-4 sm:p-0" style={{paddingLeft:0}}>
         <Outlet />
       </div>
     </div>

@@ -5,7 +5,7 @@ export interface IProduct {
   category?: string;
   price: number | null;
   status?: string;
-  imageUrl?: string;
+  imageUrl?: string[];
   images?: File[];
   quantity?:number
 }

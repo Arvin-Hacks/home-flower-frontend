@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../utils/axiosInstance';
+import * as jwtDecode from 'jwt-decode';
 // import { error } from 'console';
 import { toast } from '@/components/ui/use-toast';
 
@@ -21,6 +22,8 @@ const initialState: AuthState = {
 };
 
 export type SignupData={
+  fistName?:string
+  lastName?:string
   email: string
   password: string
 }
@@ -57,9 +60,9 @@ export const loginApi = createAsyncThunk(
 
 export const signupApi = createAsyncThunk<any ,SignupData>(
   'auth/signup',
-  async ({email,password}) => {
-    const credentials= { email, password }
-    console.log('credentials',credentials)
+  async (credentials) => {
+    // const = { email, password }
+    // console.log('credentials',credentials)
     try {
 
       const response = await axios.post('/api/v1/users/register', credentials);
@@ -94,7 +97,7 @@ export const authSlice = createSlice({
     },
     setToken: (state, action) => {
       state.token = action.payload;
-      // state.user = jwtDecode(action.payload);  // Correct usage
+      // state.user = jwtDecode<any>(action.payload);  // Correct usage
       localStorage.setItem('token', action.payload);
     },
   },
@@ -107,7 +110,7 @@ export const authSlice = createSlice({
       .addCase(loginApi.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
-        // state.user = jwtDecode(action.payload.token);  // Correct usage
+        // state.user = jwtDecode<any>(action.payload);  // Correct usage
         localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginApi.rejected, (state, action) => {
